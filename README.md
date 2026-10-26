@@ -1,3 +1,5 @@
+![Submersible AI — official banner by Michael F. Chaves](assets/7da3b9199a493ce4072ff3fc8476866592be648742265efe21bccb6a0be39a0b.png)
+
 # Submersible AI
 
 **Coined by Michael F. Chaves — October 26, 2026, Concord, New Hampshire.**
