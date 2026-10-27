@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Submersible AI — Same Ocean. A Deeper Intelligence.</title>
+<meta name="description" content="Submersible AI: an agent experience paradigm coined by Michael F. Chaves on October 26, 2026. An agent that operates at your depth — sees what you see, simulates ahead, and shows its reasoning as a HUD, not a chat log.">
+<meta property="og:title" content="Submersible AI">
+<meta property="og:description" content="Immersive is a place you visit. Submersible is a depth you live at. Coined by Michael F. Chaves, 2026-10-26, Concord, NH.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/submersible-ai-banner.png">
+<style>
+  :root{
+    --abyss:#020b18;
+    --navy:#041426;
+    --navy-2:#071f38;
+    --panel:rgba(7,31,56,.72);
+    --line:rgba(64,224,208,.22);
+    --teal:#40e0d0;
+    --cyan:#38bdf8;
+    --gold:#d4af37;
+    --gold-soft:#f0d27a;
+    --ink:#eaf6ff;
+    --muted:#a9c3d9;
+    --muted-2:#7f9ab3;
+    --radius:18px;
+    --max:1080px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(900px 500px at 85% -10%, rgba(56,189,248,.16), transparent 60%),
+      radial-gradient(700px 500px at 8% 12%, rgba(64,224,208,.10), transparent 55%),
+      linear-gradient(180deg, var(--navy) 0%, var(--abyss) 55%, #01060f 100%);
+    line-height:1.65;
+    overflow-x:hidden;
+  }
+  a{color:var(--teal)}
+  a:hover,a:focus{color:var(--gold-soft)}
+  .wrap{width:min(var(--max), calc(100% - 2.5rem)); margin:0 auto}
+
+  /* ---------- top bar ---------- */
+  header.topbar{
+    position:relative; z-index:5;
+    border-bottom:1px solid rgba(64,224,208,.14);
+    background:rgba(2,11,24,.55);
+    backdrop-filter:blur(6px);
+  }
+  .topbar .wrap{display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:.85rem 0}
+  .brand{font-weight:700; letter-spacing:.14em; font-size:.82rem; text-transform:uppercase; color:var(--ink); text-decoration:none}
+  .brand span{color:var(--gold)}
+  nav.main{display:flex; gap:1.25rem; flex-wrap:wrap}
+  nav.main a{color:var(--muted); text-decoration:none; font-size:.9rem}
+  nav.main a:hover{color:var(--teal)}
+
+  /* ---------- hero / orb ---------- */
+  .hero{position:relative; text-align:center; padding:4.5rem 0 3.5rem; isolation:isolate}
+  .orb-stage{position:relative; width:290px; height:290px; margin:0 auto 1.75rem}
+  .orb{
+    position:absolute; inset:78px;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 32%, #fff8d6 0%, var(--gold-soft) 18%, #b8860b 42%, rgba(212,175,55,.25) 68%, rgba(212,175,55,0) 72%);
+    box-shadow:0 0 60px rgba(212,175,55,.45), 0 0 140px rgba(212,175,55,.18), inset 0 0 28px rgba(255,255,255,.35);
+  }
+  .ring{position:absolute; border-radius:50%; border:1px solid var(--line)}
+  .ring.r1{inset:38px; border-color:rgba(64,224,208,.35)}
+  .ring.r2{inset:8px; border-style:dashed; border-color:rgba(56,189,248,.28)}
+  .ring.r3{inset:-22px; border-color:rgba(212,175,55,.16)}
+  .ring::after{
+    content:""; position:absolute; width:9px; height:9px; border-radius:50%;
+    background:var(--teal); box-shadow:0 0 12px var(--teal); top:12%; left:8%;
+  }
+  .ring.r2::after{background:var(--cyan); box-shadow:0 0 12px var(--cyan); top:auto; left:auto; bottom:10%; right:12%}
+  .ring.r3::after{background:var(--gold); box-shadow:0 0 12px var(--gold); top:55%; left:-4px}
+  @media (prefers-reduced-motion: no-preference){
+    .ring.r1{animation:spin 36s linear infinite}
+    .ring.r2{animation:spin 55s linear infinite reverse}
+    .ring.r3{animation:spin 80s linear infinite}
+    .orb{animation:pulse 6s ease-in-out infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
+  }
+  .eyebrow{letter-spacing:.32em; text-transform:uppercase; font-size:.78rem; color:var(--teal); margin:0 0 .75rem}
+  h1{
+    margin:0; font-size:clamp(2.6rem, 7.5vw, 5rem); line-height:1.02; letter-spacing:.06em;
+    text-transform:uppercase; font-weight:800;
+  }
+  h1 .ai{color:var(--gold)}
+  .tagline{
+    margin:1rem 0 0; font-size:clamp(1.05rem, 2.6vw, 1.45rem);
+    letter-spacing:.22em; text-transform:uppercase; color:var(--ink);
+  }
+  .strip{
+    display:inline-flex; flex-wrap:wrap; justify-content:center; gap:.5rem 1rem;
+    margin-top:1.6rem; padding:.6rem 1.2rem;
+    border:1px solid rgba(212,175,55,.35); border-radius:999px;
+    color:var(--gold-soft); letter-spacing:.28em; font-size:.82rem; text-transform:uppercase;
+    background:rgba(212,175,55,.06);
+  }
+  .hero-lede{max-width:44rem; margin:1.75rem auto 0; color:var(--muted); font-size:1.08rem}
+  .honesty{
+    max-width:44rem; margin:1.5rem auto 0; padding:1rem 1.25rem;
+    border:1px solid rgba(212,175,55,.45); border-left:4px solid var(--gold); border-radius:12px;
+    background:rgba(212,175,55,.07); color:var(--ink); text-align:left;
+  }
+  .honesty strong{color:var(--gold-soft)}
+  .banner{margin:2.5rem auto 0; max-width:880px}
+  .banner img{width:100%; height:auto; display:block; border-radius:var(--radius); border:1px solid rgba(64,224,208,.25); box-shadow:0 24px 60px rgba(0,0,0,.45)}
+  .banner figcaption{margin-top:.6rem; color:var(--muted-2); font-size:.85rem}
+
+  /* ---------- sections ---------- */
+  main section{padding:3.25rem 0}
+  .kicker{letter-spacing:.3em; text-transform:uppercase; font-size:.75rem; color:var(--teal); margin:0 0 .6rem}
+  h2{margin:0 0 1rem; font-size:clamp(1.7rem, 4vw, 2.4rem); line-height:1.15}
+  h3{margin:0 0 .5rem; font-size:1.15rem}
+  p{margin:0 0 1rem}
+  .muted{color:var(--muted)}
+  .pull{
+    font-size:clamp(1.35rem, 3.4vw, 2rem); line-height:1.35; font-weight:650;
+    border-left:4px solid var(--teal); padding-left:1.25rem; margin:0 0 1.5rem;
+  }
+  .pull em{color:var(--gold-soft); font-style:normal}
+  .card{
+    background:var(--panel); border:1px solid rgba(64,224,208,.16); border-radius:var(--radius);
+    padding:1.6rem; box-shadow:0 18px 40px rgba(0,0,0,.28);
+  }
+
+  .pillars{display:grid; grid-template-columns:repeat(2,1fr); gap:1.1rem; margin-top:1.5rem}
+  @media (max-width:720px){.pillars{grid-template-columns:1fr}}
+  .pillar{position:relative; overflow:hidden}
+  .pillar::before{
+    content:attr(data-num); position:absolute; top:.9rem; right:1.1rem;
+    font-size:2rem; font-weight:800; color:rgba(64,224,208,.16); line-height:1;
+  }
+  .pillar .glyph{
+    display:inline-grid; place-items:center; width:44px; height:44px; border-radius:50%;
+    border:1px solid rgba(212,175,55,.5); color:var(--gold-soft); font-size:1.2rem; margin-bottom:.8rem;
+    background:radial-gradient(circle at 35% 30%, rgba(212,175,55,.28), rgba(212,175,55,.05));
+  }
+  .pillar p{color:var(--muted); margin:0}
+
+  .timeline{list-style:none; margin:1.5rem 0 0; padding:0}
+  .timeline li{
+    display:grid; grid-template-columns:110px 1fr; gap:1rem; padding:.9rem 0;
+    border-top:1px solid rgba(169,195,217,.14);
+  }
+  @media (max-width:560px){.timeline li{grid-template-columns:1fr; gap:.2rem}}
+  .timeline .when{color:var(--gold-soft); font-weight:700; letter-spacing:.04em}
+  .timeline p{margin:0; color:var(--muted)}
+  .timeline strong{color:var(--ink)}
+
+  .lexicon{
+    border:1px solid rgba(212,175,55,.4); border-radius:var(--radius);
+    background:linear-gradient(180deg, rgba(212,175,55,.08), rgba(7,31,56,.72));
+    padding:1.8rem;
+  }
+  .lexicon dl{display:grid; grid-template-columns:170px 1fr; gap:.55rem 1.25rem; margin:1.25rem 0 0}
+  @media (max-width:560px){.lexicon dl{grid-template-columns:1fr; gap:.15rem}}
+  .lexicon dt{color:var(--muted-2); text-transform:uppercase; letter-spacing:.12em; font-size:.78rem; padding-top:.25rem}
+  .lexicon dd{margin:0}
+  .lexicon .term{font-size:1.3rem; font-weight:750}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.92em; color:var(--teal)}
+
+  footer{
+    border-top:1px solid rgba(64,224,208,.16);
+    padding:2.5rem 0 3rem; text-align:center; color:var(--muted);
+  }
+  footer .studio{color:var(--ink); font-weight:700; letter-spacing:.1em; text-transform:uppercase}
+  footer .motto{color:var(--gold-soft); letter-spacing:.18em; text-transform:uppercase; font-size:.85rem}
+  footer p{margin:.35rem 0}
+  .small{font-size:.88rem; color:var(--muted-2)}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#top">Submersible <span>AI</span></a>
+    <nav class="main" aria-label="Page sections">
+      <a href="#definition">Definition</a>
+      <a href="#pillars">Pillars</a>
+      <a href="#origin">Origin</a>
+      <a href="#lexicon">Lexicon entry</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero wrap" aria-labelledby="page-title">
+    <div class="orb-stage" aria-hidden="true">
+      <div class="ring r3"></div>
+      <div class="ring r2"></div>
+      <div class="ring r1"></div>
+      <div class="orb"></div>
+    </div>
+
+    <p class="eyebrow">By Michael F. Chaves &middot; Subtract Architect Studios</p>
+    <h1 id="page-title">Submersible <span class="ai">AI</span></h1>
+    <p class="tagline">Same Ocean. A Deeper Intelligence.</p>
+    <p class="strip" aria-label="Depth, Visibility, Reasoning, Action">Depth <span aria-hidden="true">|</span> Visibility <span aria-hidden="true">|</span> Reasoning <span aria-hidden="true">|</span> Action</p>
+
+    <p class="hero-lede">
+      An agent that does not sit on the surface of your software, guessing.
+      An agent that operates at your depth &mdash; inside your real environment
+      and workflow, continuously.
+    </p>
+
+
+    <figure class="banner">
+      <img src="assets/submersible-ai-banner.png" width="2172" height="724"
+           alt="Submersible AI — official banner by Michael F. Chaves: SA mark, the four pillars, and the tagline Same Ocean. A Deeper Intelligence.">
+      <figcaption>Official banner by Michael F. Chaves, committed to the public record on 2026-10-26.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ============ DEFINITION ============ -->
+  <section id="definition" class="wrap" aria-labelledby="definition-title">
+    <p class="kicker">The Definition</p>
+    <h2 id="definition-title">A depth you live at</h2>
+    <p class="pull">Immersive is a place you visit. <em>Submersible is a depth you live at.</em></p>
+    <div class="card">
+      <p>
+        <strong>Submersible AI</strong> is an agent experience paradigm in which the agent
+        does not sit on the surface of the user&rsquo;s tools, but operates <em>at the
+        user&rsquo;s depth</em> &mdash; continuously, inside the user&rsquo;s real
+        environment and workflow.
+      </p>
+      <p>
+        The agent sees what you see &mdash; your screens, your rooms, your physical
+        obstructions &mdash; and you see what it sees: its reasoning state, its evidence,
+        and its options, shown as a HUD, not buried in a chat log. Before you step into
+        a task, it runs the task ahead in simulation and flags the traps. And it is
+        vessel-independent: the same persistent agent, with the same memory and
+        relationship &mdash; software today, hardware someday. The agent persists;
+        the interfaces just keep getting less in the way.
+      </p>
+      <p class="muted" style="margin:0">
+        In Michael&rsquo;s own words, on the day he coined it: &ldquo;Total submersible
+        experience for AI &mdash; the agent can see what we see and even run simulations
+        to see the obstructions we see / feel / experience in real time, and vice versa.&rdquo;
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ PILLARS ============ -->
+  <section id="pillars" class="wrap" aria-labelledby="pillars-title">
+    <p class="kicker">The Four Pillars</p>
+    <h2 id="pillars-title">What makes an agent submersible</h2>
+    <div class="pillars">
+      <article class="card pillar" data-num="01">
+        <span class="glyph" aria-hidden="true">&#9673;</span>
+        <h3>Sees What You See</h3>
+        <p>
+          Shared vision, both directions. The agent sees your screens, rooms, and
+          physical obstructions in real time &mdash; and you see what it sees.
+          No more describing a screen to a blind partner, second-hand.
+        </p>
+      </article>
+      <article class="card pillar" data-num="02">
+        <span class="glyph" aria-hidden="true">&#9654;</span>
+        <h3>Simulates Ahead</h3>
+        <p>
+          The agent runs the flow ahead in simulation &mdash; the form, the sign-in
+          chain, the publish flow &mdash; and surfaces the traps before you step on
+          them: hidden options, expiring codes, silent misconfigurations.
+        </p>
+      </article>
+      <article class="card pillar" data-num="03">
+        <span class="glyph" aria-hidden="true">&#9670;</span>
+        <h3>Shows Its Reasoning</h3>
+        <p>
+          Reasoning as a HUD, not a chat log. Evidence as rooms you enter, not
+          paragraphs you scroll &mdash; spatial, voice and touch, with the
+          agent&rsquo;s state visible while it works.
+        </p>
+      </article>
+      <article class="card pillar" data-num="04">
+        <span class="glyph" aria-hidden="true">&#8734;</span>
+        <h3>Future-Proof Agent</h3>
+        <p>
+          Vessel-independent. The same agent, same memory, same relationship,
+          across whatever vessel the future gives it &mdash; software today
+          (browser, voice, chat), hardware someday.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ ORIGIN ============ -->
+  <section id="origin" class="wrap" aria-labelledby="origin-title">
+    <p class="kicker">Origin Story</p>
+    <h2 id="origin-title">Born from a blind morning</h2>
+    <div class="card">
+      <p>
+        On <strong>October 26, 2026</strong>, Michael and his AI operating partner spent
+        roughly <strong>two hours</strong> getting through <strong>five separate sign-in
+        locks</strong> just to publish one web page. The agent was blind the whole time.
+        That is not a complaint about the agent &mdash; it is the design of nearly every
+        AI tool in use today: the agent sits on the surface, guessing.
+      </p>
+      <p class="muted">
+        Every friction in that session was caused by an agent working at the surface.
+        Submersible AI is the name for the alternative &mdash; named the same day,
+        from first-hand evidence, and published for the record.
+      </p>
+      <ol class="timeline">
+        <li>
+          <span class="when">Lock 1</span>
+          <p><strong>Password</strong> &mdash; Google sign-in.</p>
+        </li>
+        <li>
+          <span class="when">Lock 2</span>
+          <p><strong>Text code</strong> &mdash; SMS two-step verification.</p>
+        </li>
+        <li>
+          <span class="when">Lock 3</span>
+          <p><strong>Email code</strong> &mdash; an emailed two-factor code.</p>
+        </li>
+        <li>
+          <span class="when">Lock 4</span>
+          <p><strong>Device verification</strong> &mdash; GitHub device verification.</p>
+        </li>
+        <li>
+          <span class="when">Lock 5</span>
+          <p><strong>Authenticator code</strong> &mdash; Vercel TOTP, relayed by hand against 30-second expirations, while screens were read second-hand, frame by frame.</p>
+        </li>
+        <li>
+          <span class="when">Same day</span>
+          <p><strong>The first sketch</strong> &mdash; an interactive incident timeline rendering evidence as a holographic orb constellation: rooms of sourced fact you step into, instead of a page of text.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ LIVING AI LEXICON ============ -->
+  <section id="lexicon" class="wrap" aria-labelledby="lexicon-title">
+    <p class="kicker">Living AI Lexicon</p>
+    <h2 id="lexicon-title">Lexicon entry No. 1</h2>
+    <div class="lexicon">
+      <p style="margin:0">
+        The Living AI Lexicon is a dictionary of AI terms with coinage provenance and
+        adoption tracking. <strong>Submersible AI</strong> is its first entry with a
+        fully documented birth.
+      </p>
+      <dl>
+        <dt>Term</dt>
+        <dd class="term">Submersible AI</dd>
+        <dt>Definition</dt>
+        <dd>An agent experience paradigm in which the agent operates at the user&rsquo;s depth &mdash; sees what the user sees, simulates ahead and flags traps, shows its reasoning as a HUD not a chat log, and persists vessel-independently: software today, hardware someday.</dd>
+        <dt>Coined by</dt>
+        <dd>Michael F. Chaves</dd>
+        <dt>Date coined</dt>
+        <dd><time datetime="2026-10-26">2026-10-26</time></dd>
+        <dt>Place</dt>
+        <dd>Concord, New Hampshire</dd>
+        <dt>Context</dt>
+        <dd>Coined minutes after the two-hour, five-lock sign-in gauntlet described above, during a web-page deployment session.</dd>
+        <dt>Provenance</dt>
+        <dd>
+          Public record: <a href="https://github.com/michaelchaves-dev/Submersible_Ai">github.com/michaelchaves-dev/Submersible_Ai</a>
+          &mdash; README, CONCEPT, and the author&rsquo;s canonical banner (commit <code>7732530</code>).
+        </dd>
+        <dt>Name note</dt>
+        <dd>The words &ldquo;submersible AI&rdquo; also appear in a literal, underwater sense. Those uses are not disputed. This entry claims the term in the agent-experience sense defined here &mdash; and dates the claim: 2026-10-26. This entry is not a trademark opinion.</dd>
+      </dl>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="studio">Subtract Architect Studios</p>
+    <p class="motto">Intelligence by Subtraction</p>
+    <p>Submersible AI &mdash; coined by Michael F. Chaves, 2026-10-26, Concord, NH.</p>
+    <p class="small">
+      Public record: <a href="https://github.com/michaelchaves-dev/Submersible_Ai">github.com/michaelchaves-dev/Submersible_Ai</a>
+      &middot; &copy; 2026 Michael F. Chaves / Subtract Architect Studios. The term and definition may be cited with attribution to the author and date.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
